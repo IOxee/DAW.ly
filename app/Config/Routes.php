@@ -31,6 +31,33 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'MainController::index');
 
+// login
+$routes->get('login', 'AuthController::index');
+$routes->post('login', 'AuthController::login');
+$routes->get('logout', 'AuthController::logout');
+$routes->get('register', 'AuthController::registerview');
+$routes->post('register', 'AuthController::register');
+
+// dashboard
+$routes->get('dashboard', 'DashboardController::index');
+$routes->get('createnew', 'DashboardController::createnew');
+$routes->get('manage', 'DashboardController::manageLinks');
+$routes->get('users', 'DashboardController::adminusers');
+$routes->post('users', 'DashboardController::users_posts');
+
+// shorten
+$routes->post('short', 'LinksController::index');
+$routes->post('shorten', 'LinksController::shorten');
+
+// links
+$routes->get('show_link', 'LinksController::show');
+$routes->post('dashboard/updateLink', 'LinksController::updateLink');
+$routes->post('delete', 'LinksController::deleteLink');
+
+// http://daw.ly/XXXXXXX
+$routes->post('destroy_session', 'MainController::destroy_session');
+$routes->get('(:any)', 'LinksController::redirect/$1');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

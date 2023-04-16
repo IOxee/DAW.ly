@@ -1,3 +1,11 @@
+![DAWLY LOGO](public/assets/img/logo.png)
+
+# SCREENSHOTS
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|![Screenshot 1](public/assets/img/screenshot1.png)|![Screenshot 2](public/assets/img/screenshot2.png)|![Screenshot 3](public/assets/img/screenshot3.png)|
+
+
 # CREDITS
 [IOxee](https://github.com/IOxee)
 

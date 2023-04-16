@@ -11,6 +11,12 @@ class MainController extends BaseController
         $data = [
             'title' => 'Home'
         ];
-        return view('components/header_content', $data);
+        return view('components/main_page', $data);
+    }
+
+    public function destroy_session()
+    {
+        d('destroyed');
+        session()->remove('short_link');
     }
 }

@@ -24,27 +24,27 @@
         </div>
         <div class="float-right">
             <ul class="navbar-nav">
-                <?php if (session()->get('loggedIn')): ?>
+                <?php if (session()->get('isLoggedIn')): ?>
                     <li>
-                        <a class="btn mx-2 my-3" type="submit" href="<?= base_url('panel') ?>">
+                        <a class="btn mx-2 my-3" type="submit" href="<?= base_url('dashboard') ?>">
                             <i class="bi bi-person"></i>
-                            <?= strtoupper(substr(session()->get('name'), 0, 1)) . substr(session()->get('name'), 1)?>
+                            <?= strtoupper(substr(session()->get('username'), 0, 1)) . substr(session()->get('username'), 1)?>
                         </a>
                     </li>
                     <li>
                         <a class="btn mx-2 my-3" type="submit" href="<?= base_url('logout') ?>">
-                            <i class="bi bi-box-arrow-right"></i> Tancar sessió
+                            <i class="bi bi-box-arrow-right"></i> Log out
                         </a>
                     </li>
                 <?php else: ?>
                     <li>
                         <a class="btn mx-2 my-3" type="submit" href="<?= base_url('login') ?>">
-                            <i class="bi bi-box-arrow-in-right"></i> Iniciar sessió
+                            <i class="bi bi-box-arrow-in-right"></i> Log in
                         </a>
                     </li>
                     <li>
                         <a class="btn link-primary mx-2 my-3" type="submit" href="<?= base_url('register') ?>">
-                            <i class="bi bi-person-plus"></i> Registrar-se
+                            <i class="bi bi-person-plus"></i> Sign up for free
                         </a>
                     </li>
                     <li>

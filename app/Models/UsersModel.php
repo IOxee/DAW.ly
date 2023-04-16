@@ -14,7 +14,7 @@ class UsersModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['username', 'password', 'email', 'activated', 'role'];
+    protected $allowedFields    = ['username', 'password', 'email', 'activated'];
 
     // Dates
     protected $useTimestamps = true;
@@ -39,4 +39,13 @@ class UsersModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    public function updateUserById($id, $data)
+    {
+        $builder = $this->db->table('users');
+        $builder->where('id', $id);
+        $builder->update($data);
+        return $this->db->affectedRows();
+    }
 }
