@@ -56,7 +56,6 @@ class DashboardController extends BaseController
         $kpaUsers->setColumns([
             'username',
             'email',
-            'role',
             'activated', // 1 is active, 0 is inactive
             'created_at',
             'updated_at'

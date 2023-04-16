@@ -107,31 +107,9 @@ class AuthController extends BaseController
 
     public function registerview()
     {
-        $config = [
-            "textColor"=>'#000000',
-            "backColor"=>'#ffffff',
-            "noiceColor"=>'#162453',
-            "imgWidth"=>180,
-            "imgHeight"=>40,
-            "noiceLines"=>40,
-            "noiceDots"=>20,
-            "length" => 6,
-            "expiration"=>5*MINUTE
-        ];
-        $timage = new \App\Libraries\Text2Image($config);
-        
-        $data = [
-            'title' => 'Register',
-            'captcha' => $timage->captcha()->html(),
-            'captchaText' => $timage->textToImage()->html(),
-            'text' => $timage->text
-        ];
-
-        session()->set('captcha_text', $timage->text);
-
         echo view(
             'auth/register',
-            $data
+            $this->makeCaptcha()
         );
     }
 
@@ -185,8 +163,12 @@ class AuthController extends BaseController
         ];
 
         if (!$this->validate($validationRules)) {
-            $data['validation'] = $this->validator;
-            return view('auth/register', $data);
+            $data = [
+                'title' => 'Register',
+                'validation' => $this->validator->getErrors()
+            ];
+            $data = array_merge($data, $this->makeCaptcha());
+            return redirect()->back()->withInput();
         } else {
             $captchaText = session()->get('captcha_text');
             $post = $this->request->getPost([
@@ -219,5 +201,32 @@ class AuthController extends BaseController
     {
         session()->destroy();
         return redirect()->to(base_url('/'));
+    }
+
+
+    private function makeCaptcha()
+    {
+        $config = [
+            "textColor"=>'#000000',
+            "backColor"=>'#ffffff',
+            "noiceColor"=>'#162453',
+            "imgWidth"=>180,
+            "imgHeight"=>40,
+            "noiceLines"=>40,
+            "noiceDots"=>20,
+            "length" => 6,
+            "expiration"=>5*MINUTE
+        ];
+        $timage = new \App\Libraries\Text2Image($config);
+        
+        $data = [
+            'title' => 'Register',
+            'captcha' => $timage->captcha()->html(),
+            'captchaText' => $timage->textToImage()->html(),
+            'text' => $timage->text
+        ];
+
+        session()->set('captcha_text', $timage->text);
+        return $data;
     }
 }

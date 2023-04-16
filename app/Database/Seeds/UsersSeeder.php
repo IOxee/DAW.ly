@@ -12,7 +12,7 @@ class UsersSeeder extends Seeder
             [
                 'username' => 'admin',
                 'email' => 'admin@dawly.com',
-                'password' => password_hash('admin', PASSWORD_DEFAULT),
+                'password' => password_hash('123456', PASSWORD_BCRYPT),
                 'activated' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -20,7 +20,7 @@ class UsersSeeder extends Seeder
             [
                 'username' => 'editor',
                 'email' => 'editor@dawly.com',
-                'password' => password_hash('editor', PASSWORD_DEFAULT),
+                'password' => password_hash('123456', PASSWORD_BCRYPT),
                 'activated' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -28,7 +28,7 @@ class UsersSeeder extends Seeder
             [
                 'username' => 'user',
                 'email' => 'user@dawly.com',
-                'password' => password_hash('user', PASSWORD_DEFAULT),
+                'password' => password_hash('123456', PASSWORD_BCRYPT),
                 'activated' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -36,7 +36,7 @@ class UsersSeeder extends Seeder
             [
                 'username' => 'guest',
                 'email' => 'guest@dawyly.com',
-                'password' => password_hash('guest', PASSWORD_DEFAULT),
+                'password' => password_hash('123456', PASSWORD_BCRYPT),
                 'activated' => 0,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),

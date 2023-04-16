@@ -14,7 +14,7 @@ class LinksModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [ 'link_code', 'link', 'description', 'clicks', 'user_id', 'publish_date', 'limit_date'  ];
+    protected $allowedFields    = [ 'link_code', 'link', 'text', 'description', 'clicks', 'user_id', 'publish_date', 'limit_date'  ];
 
     // Dates
     protected $useTimestamps = true;

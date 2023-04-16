@@ -31,7 +31,9 @@
                     <input class="form-control" type="password" name="password_confirm" autocomplete="new-password" class="form-control" tabindex="3" autocorrect="off" autocapitalize="none">
                 </div>
                 <div class="form-group mb-3">
-                    <?= $captcha ?>
+                    <?php if (isset($captcha)) : ?>
+                        <?= $captcha ?>
+                    <?php endif ?>
                     <input type="text" class="form-control my-1" id="captcha" name="captcha" required>
                 </div>
                 <div class="form-group text-center">
