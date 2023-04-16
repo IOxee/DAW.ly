@@ -15,6 +15,7 @@ class CreateLinks extends Migration
             ],
             'link' => ['type'=>'TEXT'],
             'link_code' => ['type'=>'VARCHAR(255)'],
+            'title' => ['type'=>'TEXT'],
             'description' => ['type'=>'TEXT', 'null' => true],
             'user_id' => ['type'=> 'INT(11)', 'null' => true],
             'publish_date' => ['type' => 'DATETIME'],
