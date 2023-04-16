@@ -9,11 +9,12 @@
 
 
 # DEMO
-# Users Login and Password
- - Admin: admin@dawly.com | 123456
- - Editor: editor@dawly.com | 123456
- - Users: user@dawly.com | 123456
- - Guest: guest@dawly.com | 123456
+    Users Login and Password
+    - Admin: admin@dawly.com | 123456
+    - Editor: editor@dawly.com | 123456
+    - Users: user@dawly.com | 123456
+    - Guest: guest@dawly.com | 123456
+
 
 
 # CREDITS
