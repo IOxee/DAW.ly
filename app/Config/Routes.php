@@ -67,7 +67,7 @@ $routes->post('delete', 'LinksController::deleteLink');
 
 // http://daw.ly/XXXXXXX
 $routes->post('destroy_session', 'MainController::destroy_session');
-$routes->get('(:alphanumber)', 'LinksController::redirect/$1');
+$routes->get('(:any)', 'LinksController::redirect/$1');
 
 /*
  * --------------------------------------------------------------------

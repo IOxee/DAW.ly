@@ -14,6 +14,12 @@
 <?= $this->endSection() ?>
 
 <?php $this->section('content') ?>
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger mt-3">
+        <?= session()->getFlashdata('error') ?>        
+    </div>
+<?php endif; ?>
+
 <section class="section-bg">
     <div class="container">
         <div class="row">
@@ -33,14 +39,16 @@
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-8">
-                <form action="<?= base_url('short') ?>" method="post">
-                    <?= csrf_field() ?>
-                    <div class="input-group">
-                        <input type="text" id="url_inputbox" class="form-control form-control-lg" placeholder="Shorten your link" name="url">
-                        <button class="btn btn-primary btn-lg" type="submit">Shorten</button>
-                    </div>
-                    <p class="form-text text-muted">By clicking SHORTEN, you are agreeing to DAWly's <a class="text-secondary" href="https://bitly.com/pages/terms-of-service">Terms of Service</a>, <a class="text-secondary" href="https://bitly.com/pages/privacy">Privacy Policy</a>, and <a class="text-secondary" href="https://bitly.com/pages/acceptable-use">Acceptable Use Policy</a></p>
-                </form>
+                <div class="input-group">
+                    <input type="text" id="url_inputbox" class="form-control form-control-lg"
+                        placeholder="Shorten your link" name="url">
+                    <button class="btn btn-primary btn-lg" id="shortener">Shorten</button>
+                </div>
+                <p class="form-text text-muted">By clicking SHORTEN, you are agreeing to DAWly's <a
+                        class="text-secondary" href="https://bitly.com/pages/terms-of-service">Terms of Service</a>,
+                    <a class="text-secondary" href="https://bitly.com/pages/privacy">Privacy Policy</a>, and <a
+                        class="text-secondary" href="https://bitly.com/pages/acceptable-use">Acceptable Use
+                        Policy</a></p>
             </div>
         </div>
     </div>
@@ -133,6 +141,40 @@
     </div>
 </section>
 
+
+<!-- captcha_modal -->
+<div class="modal fade" id="captcha_modal" tabindex="-1" aria-labelledby="captchaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="captchaModalLabel">Complete the captcha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action='<?= base_url('short') ?>' method="post">
+                <?= csrf_field() ?>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <?php if (isset($captcha)) : ?>
+                                <?= $captcha['captcha'] ?>
+                            <?php endif ?>
+                        </div>
+                        <div class="col-6">
+                            <input type="hidden" id="urlToShort" name="url">
+                            <div class="mb-3">
+                                <label for="captchaInput" class="form-label">Enter the code shown above</label>
+                                <input type="text" class="form-control" id="captchaInput" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <?php $this->endSection() ?>
 
 
@@ -142,6 +184,12 @@
     if (short_link) {
         document.getElementById('url_inputbox').value = short_link;
     }
+
+    $('#shortener').click(function () {
+        let url = $('#url_inputbox').val();
+        $('#urlToShort').val(url);
+        $('#captcha_modal').modal('show');
+    });
 
     $('#url_inputbox').mouseover(function () {
         $('#url_inputbox').attr('placeholder', 'Link is valid for 1 month');
@@ -154,5 +202,12 @@
         $('#url_inputbox').val('');
         $('#url_inputbox').attr('placeholder', 'Shorten your link');
     }, 60 * 1000);
+
+    setTimeout(function() {
+        $('.alert').css('z-index', '-1');
+        $('.alert').animate({top: '-100px'}, 500, function() {
+            $(this).remove();
+        });
+    }, 5000);
 </script>
 <?php $this->endSection() ?>

@@ -212,8 +212,8 @@ class AuthController extends BaseController
             "noiceColor"=>'#162453',
             "imgWidth"=>180,
             "imgHeight"=>40,
-            "noiceLines"=>40,
-            "noiceDots"=>20,
+            "noiceLines"=>15,
+            "noiceDots"=>10,
             "length" => 6,
             "expiration"=>5*MINUTE
         ];

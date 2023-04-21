@@ -10,6 +10,12 @@ class LinksController extends BaseController
 {
     public function index()
     {
+        $captcha = $this->request->getPost('captchaInput');
+        if ($captcha != session()->get('captcha')) {
+            session()->setFlashdata('error', 'Captcha is not valid');
+            return redirect()->back()->withInput();
+        }
+
         $original_url = $this->request->getPost('url');
         $linksModel = new LinksModel();
         $short_link = $this->generateShortLink();

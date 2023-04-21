@@ -50,39 +50,8 @@ class DashboardController extends BaseController
 
     public function adminusers()
     {
-        $kpaUsers = new KpaCrud();
-        $kpaGroups = new KpaCrud();
-        $kpaRoles = new KpaCrud();
-        $kpaUsers->setTable('users');
-        $kpaUsers->setPrimaryKey('id');
-        // username, email, role, created_at, updated_at
-        $kpaUsers->setColumns([
-            'username',
-            'email',
-            'activated', // 1 is active, 0 is inactive
-            'created_at',
-            'updated_at'
-        ]);
-        $kpaUsers->setColumnsInfo([
-            'username' => ['name'=>'Username'],
-            'email' => ['name'=>'Email'],
-            'activated' => ['name'=>'Activated','type'=>KpaCrud::CHECKBOX_FIELD_TYPE],
-            'created_at' => ['name'=>'Created at','type'=>KpaCrud::DATETIME_FIELD_TYPE],
-            'updated_at' => ['name'=>'Updated at','type'=>KpaCrud::DATETIME_FIELD_TYPE],
-        ]);
-
-        $kpaRoles->setTable('roles');
-        $kpaRoles->setPrimaryKey('id');
-        $kpaRoles->setColumns([
-            'name',
-            'level'
-        ]);
-        $kpaRoles->setColumnsInfo([
-            'name' => ['name'=>'Name'],
-            'level' => ['name'=>'Level'],
-            'description' => ['name'=>'Description'],
-        ]);
-
+        
+        
         echo view('components/dashboard',
         [
             'title' => 'Dashboard',
@@ -90,33 +59,43 @@ class DashboardController extends BaseController
             'setActive' => 'administration',
             'links' => null,
             'linkdata' => null,
-            'kpaUsers' => $kpaUsers->render(),
-            'kpaRoles' => $kpaRoles->render(),
+            'kpaUsers' => $this->kpaUsers(),
+            //'kpaRoles' => $this->kpaRoles(),
         ]);
     }
 
     public function users_posts()
     {        
+        // d($this->request->getPost());
         $post = $this->request->getPost([
+            'op',
             'data_id',
             'data_username',
             'data_email',
-            'data_password',
-            'data_role',
+            'data_activated'
         ]);
+
+        dd($this->request->getPost(), $post);
+
+        if (!isset($post['data_activated'])) {
+            $post['data_activated'] = 0;
+        }
 
         // update user
         if ($post['data_id'] != '') {
             $model = new UsersModel();
-            $model->updateUserById(
-                $post['data_id'],
-                [
-                    'username' => $post['data_username'],
-                    'email' => $post['data_email'],
-                    'password' => $post['data_password'],
-                    'role' => $post['data_role'],
-                ]
-            );
+            if ($post['op'] == 'edit') {
+                $model->updateUserById(
+                    $post['data_id'],
+                    [
+                        'username' => $post['data_username'],
+                        'email' => $post['data_email'],
+                        'activated' => $post['data_activated'],
+                    ]
+                );
+            } elseif ($post['op'] == 'del') {
+                $model->deleteUserById($post['data_id']);
+            }
         }
 
         return redirect()->to(base_url('dashboard'));
@@ -207,8 +186,56 @@ class DashboardController extends BaseController
     }
 
 
+    private function kpaUsers()
+    {
+        $kpaUsers = new KpaCrud('listView');
+        $kpaUsers->setConfig([
+            'editable' => true,
+            'removable' => true,
+            'add_button' => true,
+            'useSoftDeletes' => true,
+            'showTimestamps' => true,
+        ]);
+        $kpaUsers->setTable('users');
+        $kpaUsers->setPrimaryKey('id');
+        $kpaUsers->setColumns(['username', 'email', 'activated', 'created_at', 'updated_at']);
+        $kpaUsers->setColumnsInfo([
+            'id' => ['name' => 'ID', 'type' => kpaCrud::DEFAULT_FIELD_TYPE ],
+            'email' => ['name' => 'Correu electrònic', 'type' => kpaCrud::EMAIL_FIELD_TYPE],
+            'username' => ['name' => 'Nom d\'usuari', 'type' => kpaCrud::DEFAULT_FIELD_TYPE ],
+            'activated' => ['name' => 'Activat', 'type' => kpaCrud::CHECKBOX_FIELD_TYPE, 'check_value' => '1', 'uncheck_value' => '0'],
+            'created_at' => ['name' => 'Creat el', 'type' => kpaCrud::DATETIME_FIELD_TYPE  ],
+            'updated_at' => ['name' => 'Actualitzat el', 'type' => kpaCrud::DATETIME_FIELD_TYPE  ],
+        ]);
+
+        return $kpaUsers->render();
+    }
 
 
+    private function kpaRoles()
+    {
+        $crud = new KpaCrud('listView');
+        $crud->setConfig([
+            'editable' => true,
+            'removable' => true,
+            'add_button' => true,
+            'useSoftDeletes' => true,
+            'showTimestamps' => true,
+        ]);
+
+        $crud->setTable('roles');
+        $crud->setPrimaryKey('id');
+        $crud->setColumns(['id', 'name', 'level', 'created_at', 'updated_at']);
+        $crud->setColumnsInfo([
+            'id' => ['name' => 'ID', 'type' => kpaCrud::NUMBER_FIELD_TYPE ],
+            'name' => ['name' => 'Nom', 'type' => kpaCrud::DEFAULT_FIELD_TYPE ],
+            'level' => ['name' => 'Nivell', 'type' => kpaCrud::NUMBER_FIELD_TYPE ],
+            'created_at' => ['name' => 'Creat el', 'type' => kpaCrud::DATETIME_FIELD_TYPE  ],
+            'updated_at' => ['name' => 'Actualitzat el', 'type' => kpaCrud::DATETIME_FIELD_TYPE  ],
+        ]);
+
+        return $crud->render();
+    }
 
 
 
