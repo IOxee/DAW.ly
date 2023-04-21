@@ -31,6 +31,15 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'MainController::index');
 
+/* ELFINDER */
+
+$routes->post('fileconnector', 'FileExplorerController::connector');
+$routes->get('fileconnector', 'FileExplorerController::connector');
+$routes->post('filemanager', 'FileExplorerController::manager');
+$routes->get('filemanager', 'FileExplorerController::manager');
+
+$routes->get('fileget/(:any)', 'FileExplorerController::getFile');
+
 // login
 $routes->get('login', 'AuthController::index');
 $routes->post('login', 'AuthController::login');
@@ -44,6 +53,7 @@ $routes->get('createnew', 'DashboardController::createnew');
 $routes->get('manage', 'DashboardController::manageLinks');
 $routes->get('users', 'DashboardController::adminusers');
 $routes->post('users', 'DashboardController::users_posts');
+$routes->get('folders', 'FileExplorerController::manager');
 
 // shorten
 $routes->post('short', 'LinksController::index');
@@ -54,9 +64,10 @@ $routes->get('show_link', 'LinksController::show');
 $routes->post('dashboard/updateLink', 'LinksController::updateLink');
 $routes->post('delete', 'LinksController::deleteLink');
 
+
 // http://daw.ly/XXXXXXX
 $routes->post('destroy_session', 'MainController::destroy_session');
-$routes->get('(:any)', 'LinksController::redirect/$1');
+$routes->get('(:alphanumber)', 'LinksController::redirect/$1');
 
 /*
  * --------------------------------------------------------------------

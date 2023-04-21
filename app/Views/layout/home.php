@@ -16,8 +16,10 @@
         <link rel="stylesheet" href="<?= base_url('assets/css/style.css')?>">
         <link rel="stylesheet" href="<?= base_url('assets/css/sidebars.css')?>">
         <?= $this->renderSection('style') ?>
+        <?= $this->renderSection('cdnHeaders') ?>
     </head>
     <body>
+        <?= $this->renderSection('cdnBody') ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.3/sweetalert2.all.min.js" integrity="sha512-/iBgV43zPirSC0tue+PT/1VHGs7En24twBmT+sVMgn9PTaOpKfbgIyL5YsGKlbAIxcwz9S8W/YEnYjpIYj2Axw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

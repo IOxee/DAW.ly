@@ -56,13 +56,17 @@ class LinksController extends BaseController
             'description',
             'custom_url',
             'publish_date',
-            'limit_date'
+            'limit_date',
         ]);
+
+        $post['domain'] = !preg_match("~^(?:f|ht)tps?://~i", $post['domain']) ? WRITEPATH . '/uploads/' . $post['domain'] : $post['domain'];
+        $post['domain'] = str_replace(WRITEPATH . '/uploads/', base_url('uploads/'), $post['domain']);
 
 
         $linksModel = new LinksModel();
         $short_link = $this->generateShortLink();
         $user_id = session()->get('id');
+        
         $linksModel->insert([
             'link' => $post['domain'],
             'link_code' => $post['custom_url'],
@@ -155,5 +159,20 @@ class LinksController extends BaseController
         $model = new LinksModel();
         $links = $model->getLinksByID($id);
         return $links;
+    }
+
+    private function searchFileInFolders($filename, $searchPath) {
+        $files = glob($searchPath . '/*');
+        foreach($files as $file) {
+            if(is_dir($file)) {
+                $result = $this->searchFileInFolders($filename, $file);
+                if($result !== false) {
+                    return $result;
+                }
+            } else if(basename($file) === $filename) {
+                return $file;
+            }
+        }
+        return false;
     }
 }
