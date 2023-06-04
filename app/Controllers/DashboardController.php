@@ -64,42 +64,42 @@ class DashboardController extends BaseController
         ]);
     }
 
-    public function users_posts()
-    {        
-        // d($this->request->getPost());
-        $post = $this->request->getPost([
-            'op',
-            'data_id',
-            'data_username',
-            'data_email',
-            'data_activated'
-        ]);
+    // public function users_posts()
+    // {        
+    //     // d($this->request->getPost());
+    //     $post = $this->request->getPost([
+    //         'op',
+    //         'data_id',
+    //         'data_username',
+    //         'data_email',
+    //         'data_activated'
+    //     ]);
 
-        dd($this->request->getPost(), $post);
+    //     dd($this->request->getPost(), $post);
 
-        if (!isset($post['data_activated'])) {
-            $post['data_activated'] = 0;
-        }
+    //     if (!isset($post['data_activated'])) {
+    //         $post['data_activated'] = 0;
+    //     }
 
-        // update user
-        if ($post['data_id'] != '') {
-            $model = new UsersModel();
-            if ($post['op'] == 'edit') {
-                $model->updateUserById(
-                    $post['data_id'],
-                    [
-                        'username' => $post['data_username'],
-                        'email' => $post['data_email'],
-                        'activated' => $post['data_activated'],
-                    ]
-                );
-            } elseif ($post['op'] == 'del') {
-                $model->deleteUserById($post['data_id']);
-            }
-        }
+    //     // update user
+    //     if ($post['data_id'] != '') {
+    //         $model = new UsersModel();
+    //         if ($post['op'] == 'edit') {
+    //             $model->updateUserById(
+    //                 $post['data_id'],
+    //                 [
+    //                     'username' => $post['data_username'],
+    //                     'email' => $post['data_email'],
+    //                     'activated' => $post['data_activated'],
+    //                 ]
+    //             );
+    //         } elseif ($post['op'] == 'del') {
+    //             $model->deleteUserById($post['data_id']);
+    //         }
+    //     }
 
-        return redirect()->to(base_url('dashboard'));
-    }
+    //     return redirect()->to(base_url('dashboard'));
+    // }
 
     public function folders()
     {
@@ -188,14 +188,14 @@ class DashboardController extends BaseController
 
     private function kpaUsers()
     {
-        $kpaUsers = new KpaCrud('listView');
-        $kpaUsers->setConfig([
-            'editable' => true,
-            'removable' => true,
-            'add_button' => true,
-            'useSoftDeletes' => true,
-            'showTimestamps' => true,
-        ]);
+        $kpaUsers = new KpaCrud(); // 'listView'
+        // $kpaUsers->setConfig([
+        //     'editable' => true,
+        //     'removable' => true,
+        //     'add_button' => true,
+        //     'useSoftDeletes' => true,
+        //     'showTimestamps' => true,
+        // ]);
         $kpaUsers->setTable('users');
         $kpaUsers->setPrimaryKey('id');
         $kpaUsers->setColumns(['username', 'email', 'activated', 'created_at', 'updated_at']);

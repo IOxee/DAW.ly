@@ -48,4 +48,51 @@ class UsersModel extends Model
         $builder->update($data);
         return $this->db->affectedRows();
     }
+
+    public function getAllDataById($id)
+    {
+        $builder = $this->db->table('users');
+        $builder->where('id', $id);
+        return $builder->get()->getRowArray();
+    }
+
+    public function getAllData()
+    {
+        $builder = $this->db->table('users');
+        return $builder->get()->getResultArray();
+    }
+
+    public function getInsertID()
+    {
+        return $this->db->insertID();
+    }
+
+    public function updateByMail($email, $data)
+    {
+        $builder = $this->db->table('users');
+        $builder->where('email', $email);
+        $builder->update($data);
+        return $this->db->affectedRows();
+    }
+
+    public function getPassword($id)
+    {
+        $builder = $this->db->table('users');
+        $builder->select('password');
+        $builder->where('id', $id);
+        return $builder->get()->getRowArray();
+    }
+
+    public function isAccountActivated($id)
+    {
+        $builder = $this->db->table('users');
+        $builder->select('activated');
+        $builder->where('id', $id);
+        if ($builder->get()->getRowArray()['activated'] == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
+

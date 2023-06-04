@@ -31,6 +31,40 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'MainController::index');
 
+
+$routes->group('api', static function ($routes) {
+    $routes->group('v1', static function ($routes) {
+        // $routes->options('(:any)', 'APIController::login');
+        $routes->post('login', 'APIController::login');
+        $routes->get('link/(:segment)', 'APIController::getDawlyURL/$1');
+        $routes->post('new', 'APIController::newDawly');
+        $routes->post('register', 'APIController::register');
+    });
+    
+    
+    $routes->group('v2', ['filter' => 'jwt'], static function ($routes) {
+        $routes->post('options', 'APIController::getDawlyOptions');
+        $routes->post('users', 'APIController::users');
+        $routes->post('urole', 'APIController::user_role');
+        
+        $routes->put('edituser', 'APIController::edit_user');
+        
+        $routes->post('isingroup', 'APIController::is_in_group');
+        $routes->post('create', 'APIController::create');
+        $routes->post('editlink', 'APIController::editlink');
+    });
+
+    $routes->group('v2', static function ($routes){
+        $routes->options('create', 'APIController::create');
+        $routes->options('options', 'APIController::getDawlyOptions');
+        $routes->options('users', 'APIController::users');
+        $routes->options('edituser', 'APIController::edit_user');
+        $routes->options('editlink', 'APIController::editlink');
+    });
+});
+
+
+
 /* ELFINDER */
 
 $routes->post('fileconnector', 'FileExplorerController::connector');
@@ -52,7 +86,8 @@ $routes->get('dashboard', 'DashboardController::index');
 $routes->get('createnew', 'DashboardController::createnew');
 $routes->get('manage', 'DashboardController::manageLinks');
 $routes->get('users', 'DashboardController::adminusers');
-$routes->post('users', 'DashboardController::users_posts');
+$routes->post('users', 'DashboardController::adminusers');
+// $routes->post('users', 'DashboardController::users_posts');
 $routes->get('folders', 'FileExplorerController::manager');
 
 // shorten

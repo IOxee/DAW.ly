@@ -63,12 +63,7 @@
             </a>
         </li>
         <?php if ($role >= 10): ?>
-            <li>
-                <a href="<?= base_url('users') ?>" class="nav-link py-3 border-bottom rounded-0" title="Usuarios" id="administration" data-bs-toggle="tooltip"
-                    data-bs-placement="right">
-                    <i class="bi bi-people"></i>
-                </a>
-            </li>
+            
         <?php endif; ?>
     </ul>
 </div>

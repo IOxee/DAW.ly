@@ -40,7 +40,14 @@ class LinksModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-
+    public function getTitle($short_link)
+    {
+        $builder = $this->db->table('links');
+        $builder->where('link_code', $short_link);
+        $query = $builder->get();
+        $title = $query->getRowArray();
+        return $title['title'] ?? null;
+    }
 
     public function getLink($short_link)
     {
@@ -49,7 +56,7 @@ class LinksModel extends Model
         $query = $builder->get();
         // from query i only get the long_link
         $link = $query->getRowArray();
-        return $link['link'];
+        return $link['link'] ?? null;
     }
 
     public function getId($short_link)
@@ -58,7 +65,7 @@ class LinksModel extends Model
         $builder->where('link_code', $short_link);
         $query = $builder->get();
         $id = $query->getRowArray();
-        return $id['id'];
+        return $id['id'] ?? null;
     }
 
     public function getDescription($short_link)
@@ -67,7 +74,7 @@ class LinksModel extends Model
         $builder->where('link_code', $short_link);
         $query = $builder->get();
         $description = $query->getRowArray();
-        return $description['description'];
+        return $description['description'] ?? null;
     }
 
     public function isValid($short_link)
@@ -109,5 +116,13 @@ class LinksModel extends Model
         $builder = $this->db->table('links');
         $builder->where('link_code', $code);
         $builder->delete();
+    }
+
+    public function updateByShortLink($short_link, $data)
+    {
+        $builder = $this->db->table('links');
+        $builder->where('link_code', $short_link);
+        $builder->update($data);
+        return $this->db->affectedRows();
     }
 }

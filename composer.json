@@ -7,8 +7,10 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
+        "firebase/php-jwt": "^6.4",
         "siensis/kpacrud": "dev-master",
-        "studio-42/elfinder": "^2.1"
+        "studio-42/elfinder": "^2.1",
+        "crada/php-apidoc": "@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
